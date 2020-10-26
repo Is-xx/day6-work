@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="test">
+
+    <one></one>
+    <hr>
+    <two></two>
+
+</div>
+
+<script src="js/vue.min.js"></script>
+<script src="js/vuex.3.0.1.js"></script>
+<script>
+
+    let one ={
+        template: `
+        <div>
+        这是组件一
+        <button @click="change">点击变换组件二数据</button>
+</div>
+        `,
+        methods: {
+            change(){
+                this.$store.commit('change_info', {username: '小白', age: 20});
+            }
+        }
+    }
+
+    let two ={
+        template: `
+        <div>
+        这是组件二-----用户的信息为：{{ $store.state.user }}
+</div>
+        `
+    }
+
+    let myStore = new Vuex.Store({
+        state: {
+            user:{
+                username: '小红',
+                age: 18,
+            }
+        },
+        mutations: {
+            change_info(state, user){
+                state.user.username = user.username;
+                state.user.age = user.age;
+            }
+        }
+    })
+
+    new Vue({
+        el: '#test',
+        data: {},
+        components: {
+            one: one,
+            two: two,
+        },
+        store: myStore,
+    })
+
+</script>
+
+</body>
+</html>

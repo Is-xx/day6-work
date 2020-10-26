@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="test">
+
+    <one></one>
+    <hr>
+    <two></two>
+
+</div>
+
+<script src="js/vue.min.js"></script>
+<script src="js/vuex.3.0.1.js"></script>
+<script>
+
+    let one ={
+        template: `
+        <div>
+        这是组件一
+        <button @click="add">点击加1</button>
+</div>
+        `,
+        methods: {
+            add(){
+                this.$store.commit('add_num');
+            }
+        }
+    }
+
+    let two ={
+        template: `
+        <div>
+        这是组件二-----num为：{{ $store.state.num }}
+        <br>
+        num的相反数为：{{ $store.getters.change_num }}
+</div>
+        `
+    }
+
+    let myStore = new Vuex.Store({
+        state: {
+            num: 6,
+        },
+        mutations: {
+            add_num(state) {
+                state.num++;
+            }
+        },
+        getters: {
+            change_num(state){
+                return 0 - state.num;
+            }
+        }
+    })
+
+    new Vue({
+        el: '#test',
+        data: {},
+        components: {
+            one: one,
+            two: two,
+        },
+        store: myStore,
+    })
+
+</script>
+
+</body>
+</html>

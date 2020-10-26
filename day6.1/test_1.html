@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="test">
+
+    <one></one>
+    <hr>
+    <two></two>
+
+</div>
+
+<script src="js/vue.min.js"></script>
+<script src="js/vuex.3.0.1.js"></script>
+<script>
+
+    let one = {
+        template: `
+          <div>
+          这是第一个组件
+          <button @click="change()">点击增加第二个组件的值</button>
+          </div>
+        `,
+        methods: {
+            change() {
+                this.$store.commit('add_num');
+            }
+        }
+    }
+
+    let two = {
+        template: `
+            <div>
+                这是第二个组件-------组件的值：{{ $store.state.number }}
+            </div>
+        `
+    }
+
+    let myStore = new Vuex.Store({
+        state: {
+            number: 4,
+        },
+        mutations: {
+            add_num(state) {
+                if (state.number < 10) {
+                    state.number++;
+                }
+            }
+        }
+    })
+
+    new Vue({
+        el: '#test',
+        data: {},
+        components: {
+            one: one,
+            two: two,
+        },
+        store: myStore,
+    })
+
+</script>
+
+</body>
+</html>

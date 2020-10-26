@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="test">
+
+    <one></one>
+    <hr>
+    <two></two>
+
+</div>
+
+<script src="js/vue.min.js"></script>
+<script src="js/vuex.3.0.1.js"></script>
+<script>
+
+    let one ={
+        template: `
+        <div>
+        这是组件一
+        <button @click="add">点击加100</button>
+</div>
+        `,
+        methods: {
+            add(){
+                this.$store.commit('add_num', 100);
+            }
+        }
+    }
+
+    let two ={
+        template: `
+        <div>
+        这是组件二-----num为：{{ $store.getters.result }}
+
+</div>
+        `
+    }
+
+    let myStore = new Vuex.Store({
+        state: {
+            num: [66, 44],
+        },
+        mutations: {
+            add_num(state, num) {
+                state.num.push(num);
+            }
+        },
+        getters: {
+            result(state){
+                let res = 0;
+                for(let n of state.num){
+                    res += n;
+                }
+                return res;
+            }
+        }
+    })
+
+    new Vue({
+        el: '#test',
+        data: {},
+        components: {
+            one: one,
+            two: two,
+        },
+        store: myStore,
+    })
+
+</script>
+
+</body>
+</html>
